@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="inputValue" class="form-control" type="text">
+                    <button id="generate-pin" class="generate-btn">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input id="result" class="form-control" type="text">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div class="button" onclick="display(7)">7</div>
+                              <div class="button" onclick="display(8)">8</div>
+                              <div class="button" onclick="display(9)">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="display(4)">4</div>
+                              <div class="button" onclick="display(5)">5</div>
+                              <div class="button" onclick="display(6)">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="display(1)">1</div>
+                              <div class="button" onclick="display(2)">2</div>
+                              <div class="button" onclick="display(3)">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" id="backspace" onclick="backspace()">&lt;</div>
+                                <div class="button" onclick="display(0)">0</div>
+                                <div class="button" onclick="clearScreen()">C</div>
+                            </div>
+                            <div>
+                                <button id="submitBtn" type="submit" class="submit-btn">Submit</button>
+                                <p id="actionNmbr" class="action-left">3 try left</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="notify-match" class="notify-section">
+            <p id="didntMatch" class="notify">❌ Pin Didn't Match, Please try again</p>
+            <p id="match" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+        
+    <script>
+        var notification1 = document.getElementById("match").style.display = "none";
+        var notification2 = document.getElementById("didntMatch").style.display = "none";
+
+        document.getElementById("generate-pin").addEventListener("click", function(){
+            const InputValue = document.getElementById("inputValue").value = 'center';
+            const inputNumber = 1000 + Math.random() * 9000;
+            const result = Math.round(inputNumber);
+            document.getElementById("inputValue").value=result;
+        })
+
+        function clearScreen() {
+           document.getElementById("result").value = "";
+        }
+
+        function display(value) {
+            document.getElementById("result").value += value;
+        }
+        function backspace(){
+            document.getElementById("result").value = result.value.slice(0, -1)
+        }
+        document.getElementById("submitBtn").addEventListener("click", function(){
+            var inputNumber = document.getElementById("result").value;
+            var inputValue = document.getElementById("inputValue").value
+            
+            if(inputNumber == inputValue){
+                document.getElementById("match").style.display = "block"
+                removeNumber();
+            }
+            else{
+                document.getElementById("didntMatch").style.display = "block"
+                removeNumber();
+            }
+        })
+        function removeNumber(){
+            document.getElementById("result").value = "";
+            document.getElementById("inputValue").value = "";
+        }
+        
+    </script>
+</body>
+</html>
