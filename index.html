@@ -12,13 +12,13 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="pin-generator half-width">
-                    <input id="inputValue" class="form-control" type="text">
+                    <input disabled id="inputValue" class="form-control " type="text" >
                     <button id="generate-pin" class="generate-btn">Generate Pin</button>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-section half-width">
-                    <input id="result" class="form-control" type="text">
+                    <input disabled id="result" class="form-control" type="text">
                     <div class="numbers">
                         <div class="calc-body">
                             <div class="calc-button-row">
@@ -42,8 +42,13 @@
                                 <div class="button" onclick="clearScreen()">C</div>
                             </div>
                             <div>
-                                <button id="submitBtn" type="submit" class="submit-btn">Submit</button>
-                                <p id="actionNmbr" class="action-left">3 try left</p>
+                                <button id="submitBtn" type="submit" class="submit-btn btn">Submit</button>
+                                <div id="actionText">
+                                    <p id="actionNmbr1" class="action-left">3 try left</p>
+                                <p id="actionNmbr2" class="action-left">2 try left</p>
+                                <p id="actionNmbr3" class="action-left">1 try left</p>
+                                <p id="actionNmbr4" class="action-left">0 try left</p>
+                                </div>
                             </div>
                     </div>
                 </div>
@@ -56,14 +61,22 @@
     </div>
         
     <script>
+        // notify section display hidden
         var notification1 = document.getElementById("match").style.display = "none";
         var notification2 = document.getElementById("didntMatch").style.display = "none";
-
+        var notification3 = document.getElementById("actionNmbr1").style.display = "none"
+        var notification4 = document.getElementById("actionNmbr2").style.display = "none"
+        var notification5 = document.getElementById("actionNmbr3").style.display = "none"
+        var notification6 = document.getElementById("actionNmbr4").style.display = "none"
+        
+        //generate button calculation event handler
         document.getElementById("generate-pin").addEventListener("click", function(){
             const InputValue = document.getElementById("inputValue").value = 'center';
             const inputNumber = 1000 + Math.random() * 9000;
-            const result = Math.round(inputNumber);
+            const result =Math.round(inputNumber);
             document.getElementById("inputValue").value=result;
+            generatePin()
+            var notification2 = document.getElementById("result").value.style.display = "none";
         })
 
         function clearScreen() {
@@ -76,24 +89,69 @@
         function backspace(){
             document.getElementById("result").value = result.value.slice(0, -1)
         }
+
+        //submit button event handler
         document.getElementById("submitBtn").addEventListener("click", function(){
             var inputNumber = document.getElementById("result").value;
             var inputValue = document.getElementById("inputValue").value
             
             if(inputNumber == inputValue){
                 document.getElementById("match").style.display = "block"
+                document.getElementById("didntMatch").style.display = "none"
+                document.getElementById("actionText").style.display = "none"
                 removeNumber();
             }
-            else{
-                document.getElementById("didntMatch").style.display = "block"
-                removeNumber();
+            else if(inputNumber != inputValue){
+                clickFunc()
             }
         })
-        function removeNumber(){
-            document.getElementById("result").value = "";
-            document.getElementById("inputValue").value = "";
-        }
-        
+        //submit button warning notification section
+        var count = 0;
+            function clickFunc(){
+                count += 1;
+                var btn = document.querySelector(".btn");
+                if(count == 1){
+                    document.getElementById("actionText").style.display = "block"
+                    document.getElementById("didntMatch").style.display = "block"
+                    document.getElementById("match").style.display = "none"
+                    var notification3 = document.getElementById("actionNmbr1").style.display = "block"
+                }
+                else if(count == 2){
+                    document.getElementById("actionText").style.display = "block"
+                    document.getElementById("didntMatch").style.display = "block"
+                    document.getElementById("match").style.display = "none"
+                    var notification3 = document.getElementById("actionNmbr1").style.display = "none"
+                    var notification3 = document.getElementById("actionNmbr2").style.display = "block"
+                }
+                else if(count == 3){
+                    document.getElementById("actionText").style.display = "block"
+                    document.getElementById("didntMatch").style.display = "block"
+                    document.getElementById("match").style.display = "none"
+                    var notification3 = document.getElementById("actionNmbr1").style.display = "none"
+                    var notification3 = document.getElementById("actionNmbr2").style.display = "none"
+                    var notification3 = document.getElementById("actionNmbr3").style.display = "block"
+                }
+                else if(count >= 3){
+                    var notification3 = document.getElementById("actionNmbr3").style.display = "none"
+                    var notification3 = document.getElementById("actionNmbr4").style.display = "block"
+                    btn.disabled = true;
+                }
+                return count;
+            }
+            
+            //generate button notify section none function
+            function generatePin(){
+                    
+                    var notification1 = document.getElementById("match").style.display = "none";
+                    var notification2 = document.getElementById("didntMatch").style.display = "none";
+                    return
+            }
+
+            //input number hidden function
+            function removeNumber(){
+                document.getElementById("result").value = "";
+                document.getElementById("inputValue").value = "";
+            }
     </script>
 </body>
 </html>
